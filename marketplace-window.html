@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Marketplace do Bananablet</title>
+    <style>
+        :root {
+            --bb-ui-bg: #14110b;
+            --bb-ui-surface: #1d170e;
+            --bb-ui-text: #fff;
+            --bb-ui-muted: rgba(255, 237, 213, .68);
+            --bb-ui-accent: #f59e0b;
+            --bb-ui-primary: #f59e0b;
+            --bb-ui-on-primary: #241600;
+            --bb-ui-border: rgba(245, 158, 11, .28);
+            --bb-ui-tint: rgba(255, 255, 255, .04);
+            --bb-ui-line: rgba(255, 255, 255, .09);
+            --bb-ui-ok-bg: #052e16;
+            --bb-ui-ok-text: #bbf7d0;
+            --bb-ui-err-bg: #450a0a;
+            --bb-ui-err-text: #fecaca;
+            --bb-ui-warn-bg: #451a03;
+            --bb-ui-warn-text: #fde68a;
+            --bb-ui-info-bg: #082f49;
+            --bb-ui-info-text: #bae6fd;
+            --mkt-accent-soft: color-mix(in srgb, var(--bb-ui-accent) 8%, transparent);
+            --mkt-accent-line: color-mix(in srgb, var(--bb-ui-accent) 40%, transparent);
+            --mkt-accent-faint: color-mix(in srgb, var(--bb-ui-accent) 25%, transparent);
+            --mkt-warn-soft: color-mix(in srgb, var(--bb-ui-warn-text) 8%, transparent);
+            --mkt-warn-line: color-mix(in srgb, var(--bb-ui-warn-text) 40%, transparent);
+            --mkt-head-bg: #0b0906;
+            --mkt-head-line: rgba(255, 255, 255, .08);
+            --mkt-text-soft: rgba(255, 237, 213, .85);
+            --mkt-qr-light: #fff;
+            --mkt-qr-dark: #111;
+            --mkt-mono: 'Cascadia Mono', Consolas, ui-monospace, monospace;
+            color-scheme: dark;
+        }
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        html, body {
+            min-height: 100%;
+            margin: 0;
+            background: var(--bb-ui-bg);
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            color: var(--bb-ui-text);
+        }
+        [hidden] {
+            display: none !important;
+        }
+        .mkt-win {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .mkt-win-head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+            height: 34px;
+            padding: 0 12px;
+            border-bottom: 1px solid var(--mkt-head-line);
+            background: var(--mkt-head-bg);
+            color: var(--bb-ui-muted);
+            font-size: 12px;
+        }
+        .mkt-win-head svg {
+            flex-shrink: 0;
+            color: var(--bb-ui-accent);
+        }
+        .mkt-win-tag {
+            margin-left: auto;
+        }
+        .mkt-win-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 18px 20px 16px;
+            outline: none;
+        }
+        .mkt-win-body h1 {
+            margin: 0;
+            font-size: 19px;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+        .mkt-win-body h1:focus {
+            outline: none;
+        }
+        .mkt-win-body h1:focus-visible {
+            outline: 2px solid var(--bb-ui-accent);
+            outline-offset: 2px;
+        }
+        .mkt-win-title {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .mkt-sub {
+            margin: 0;
+            color: var(--bb-ui-muted);
+            font-size: 12px;
+            line-height: 1.45;
+        }
+        .mkt-win-center {
+            text-align: center;
+        }
+        .mkt-win-value {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 12px 14px;
+            border: 1px solid var(--bb-ui-line);
+            border-radius: 10px;
+            background: var(--bb-ui-tint);
+        }
+        .mkt-win-value strong {
+            color: var(--bb-ui-accent);
+            font-size: 24px;
+            font-weight: 800;
+        }
+        .mkt-win-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: var(--mkt-accent-soft);
+            box-shadow: inset 0 0 0 1px var(--mkt-accent-line);
+            color: var(--mkt-text-soft);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .mkt-win-box[data-tone="warn"] {
+            background: var(--mkt-warn-soft);
+            box-shadow: inset 0 0 0 1px var(--mkt-warn-line);
+        }
+        .mkt-win-facts {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 6px 12px;
+            margin: 0;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+        .mkt-win-fact {
+            display: contents;
+        }
+        .mkt-win-facts dt {
+            color: var(--bb-ui-muted);
+        }
+        .mkt-win-facts dd {
+            margin: 0;
+            color: var(--bb-ui-text);
+            text-align: right;
+        }
+        .mkt-win-box strong {
+            color: var(--bb-ui-text);
+            font-size: 14px;
+        }
+        .mkt-win-alert {
+            color: var(--bb-ui-warn-text);
+        }
+        .mkt-win-pix {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .mkt-qr {
+            flex-shrink: 0;
+            width: 168px;
+            height: 168px;
+            border-radius: 10px;
+            background: var(--mkt-qr-light);
+        }
+        .mkt-qr path {
+            fill: var(--mkt-qr-dark);
+        }
+        .mkt-win-noqr {
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            width: 168px;
+            height: 168px;
+            padding: 14px;
+            border: 1px dashed var(--mkt-accent-line);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .mkt-win-side {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .mkt-win-text {
+            margin: 0;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .mkt-win-code {
+            margin: 0;
+            padding: 10px 12px;
+            border: 1px dashed var(--mkt-accent-line);
+            border-radius: 8px;
+            background: var(--bb-ui-tint);
+            font-family: var(--mkt-mono);
+            font-size: 11px;
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+            user-select: all;
+        }
+        .mkt-win-code:focus-visible {
+            outline: 2px solid var(--bb-ui-accent);
+            outline-offset: 2px;
+        }
+        .mkt-win-wait {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            border: 1px solid var(--bb-ui-line);
+            border-radius: 10px;
+            background: var(--bb-ui-tint);
+        }
+        .mkt-win-wait-text {
+            flex: 1;
+            min-width: 0;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+        .mkt-spin {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--mkt-accent-faint);
+            border-top-color: var(--bb-ui-accent);
+            border-radius: 50%;
+            animation: mkt-spin 1s linear infinite;
+        }
+        .mkt-spin[data-size="lg"] {
+            width: 34px;
+            height: 34px;
+            border-width: 3px;
+        }
+        @keyframes mkt-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .mkt-win-hero {
+            --mkt-tone-text: var(--bb-ui-info-text);
+            --mkt-tone-bg: var(--bb-ui-info-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 22px 8px 4px;
+            text-align: center;
+        }
+        .mkt-win-hero[data-tone="ok"] {
+            --mkt-tone-text: var(--bb-ui-ok-text);
+            --mkt-tone-bg: var(--bb-ui-ok-bg);
+        }
+        .mkt-win-hero[data-tone="warn"] {
+            --mkt-tone-text: var(--bb-ui-warn-text);
+            --mkt-tone-bg: var(--bb-ui-warn-bg);
+        }
+        .mkt-win-hero[data-tone="err"] {
+            --mkt-tone-text: var(--bb-ui-err-text);
+            --mkt-tone-bg: var(--bb-ui-err-bg);
+        }
+        .mkt-win-hero[data-tone="accent"] {
+            --mkt-tone-text: var(--bb-ui-accent);
+            --mkt-tone-bg: var(--mkt-accent-soft);
+        }
+        .mkt-win-hero-icon {
+            display: grid;
+            place-items: center;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--mkt-tone-bg);
+            color: var(--mkt-tone-text);
+        }
+        .mkt-win-hero .mkt-sub {
+            max-width: 360px;
+            font-size: 13px;
+        }
+        .mkt-win-foot {
+            margin: auto 0 0;
+            color: var(--bb-ui-muted);
+            font-size: 11px;
+            line-height: 1.5;
+        }
+        .mkt-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .mkt-actions > .bb-ui-button {
+            flex: 1 1 140px;
+        }
+        .mkt-actions[data-end] {
+            margin-top: auto;
+        }
+        .mkt-actions[data-end] + .mkt-win-foot {
+            margin-top: 0;
+        }
+        .mkt-text {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .mkt-text strong {
+            font-size: 13px;
+        }
+        .mkt-aviso {
+            --mkt-tone-text: var(--bb-ui-info-text);
+            --mkt-tone-bg: var(--bb-ui-info-bg);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px 10px 10px 12px;
+            border: 1px solid var(--bb-ui-border);
+            border-left: 3px solid var(--mkt-tone-text);
+            border-radius: 10px;
+            background: var(--bb-ui-surface);
+            text-align: left;
+        }
+        .mkt-aviso > .mkt-text {
+            flex: 1 1 200px;
+        }
+        .mkt-aviso > .bb-ui-button {
+            margin-left: auto;
+        }
+        .mkt-aviso[data-tone="ok"] {
+            --mkt-tone-text: var(--bb-ui-ok-text);
+            --mkt-tone-bg: var(--bb-ui-ok-bg);
+        }
+        .mkt-aviso[data-tone="warn"] {
+            --mkt-tone-text: var(--bb-ui-warn-text);
+            --mkt-tone-bg: var(--bb-ui-warn-bg);
+        }
+        .mkt-aviso[data-tone="err"] {
+            --mkt-tone-text: var(--bb-ui-err-text);
+            --mkt-tone-bg: var(--bb-ui-err-bg);
+        }
+        .mkt-aviso-icon {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 26px;
+            height: 26px;
+            border-radius: 7px;
+            background: var(--mkt-tone-bg);
+            color: var(--mkt-tone-text);
+        }
+        .mkt-copy-area {
+            position: fixed;
+            top: -200px;
+            left: 0;
+            opacity: 0;
+        }
+        @media (max-width: 400px) {
+            .mkt-win-body {
+                padding: 16px 14px 14px;
+            }
+            .mkt-win-pix {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .mkt-qr,
+            .mkt-win-noqr {
+                align-self: center;
+            }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .mkt-spin {
+                animation-duration: 3s;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mkt-win" id="mkt-win"></div>
+    <script src="bb-ui.js"></script>
+    <script src="qrcode.min.js"></script>
+    <script src="marketplace-kit.js"></script>
+    <script src="marketplace-window.js"></script>
+</body>
+</html>

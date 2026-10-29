@@ -1,0 +1,72 @@
+:root {
+    --mkt-notices-bg: #14110b;
+    --mkt-notices-line: #1d170e;
+    --mkt-notices-text: #fff7ed;
+    --mkt-notices-muted: rgba(255,237,213,.68);
+    --mkt-notices-amber: #f59e0b;
+    --mkt-notices-ink: #241600;
+    --mkt-notices-border: rgba(245,158,11,.28);
+    --mkt-notices-highlight: #2a1f05;
+    --mkt-notices-highlight-title: #fde68a;
+    --mkt-notices-blue: #bae6fd;
+    --mkt-notices-green: #bbf7d0;
+    --mkt-notices-pink: #fecaca;
+    --mkt-notices-soft-border: rgba(255,255,255,.14);
+    --mkt-notices-shadow: rgba(0,0,0,.65);
+    --mkt-notices-list-limit: 420px;
+    --mkt-notices-urgent: #451a03;
+    --mkt-notices-face: #3b2a10;
+    --mkt-notices-face-border: rgba(245,158,11,.5);
+    --mkt-notices-star-off: rgba(255,237,213,.35);
+}
+.mkt-notices-game { margin: 0; padding: 8px; background: transparent; font: 13px/1.4 'Ubuntu', 'Segoe UI', system-ui, sans-serif; }
+.mkt-notices-overlay { position: absolute; top: 76px; right: 16px; z-index: 20; max-width: calc(100% - 32px); }
+.mkt-notices-card { box-sizing: border-box; width: 392px; max-width: 100%; padding: 12px; border: 1px solid var(--mkt-notices-border); border-radius: 10px; background: var(--mkt-notices-bg); color: var(--mkt-notices-text); box-shadow: 0 12px 32px var(--mkt-notices-shadow); font: 13px/1.4 'Ubuntu', 'Segoe UI', system-ui, sans-serif; }
+.mkt-notices-card * { box-sizing: border-box; }
+.mkt-notices-head, .mkt-notices-single-row { display: flex; gap: 10px; align-items: center; }
+.mkt-notices-bell { flex: 0 0 24px; width: 24px; height: 24px; fill: var(--mkt-notices-amber); shape-rendering: crispEdges; }
+.mkt-notices-copy { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.mkt-notices-copy strong { display: block; font-size: 13px; line-height: 1.35; }
+.mkt-notices-head strong { font-size: 15px; }
+.mkt-notices-copy p, .mkt-notices-hint, .mkt-notices-more { margin: 4px 0 0; color: var(--mkt-notices-muted); font-size: 12px; }
+.mkt-notices-heading { display: block; margin-bottom: 4px; color: var(--mkt-notices-muted); font-size: 11px; }
+.mkt-notices-close { flex: 0 0 44px; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 8px; color: var(--mkt-notices-text); background: transparent; cursor: pointer; }
+.mkt-notices-close:hover { background: var(--mkt-notices-line); }
+.mkt-notices-list { display: grid; gap: 8px; margin: 12px 0 0; padding: 0; list-style: none; max-height: min(52vh, 420px); overflow-y: auto; }
+.mkt-notices-game .mkt-notices-list { max-height: var(--mkt-notices-list-limit); }
+.mkt-notices-line { display: flex; align-items: center; gap: 10px; padding: 10px; border: 1px solid var(--mkt-notices-border); border-radius: 8px; background: var(--mkt-notices-line); }
+.mkt-notices-line[data-kind="key"], .mkt-notices-line[data-kind="builder_invite"] { background: var(--mkt-notices-highlight); border-color: var(--mkt-notices-amber); }
+.mkt-notices-line[data-kind="key"] strong, .mkt-notices-line[data-kind="builder_invite"] strong { color: var(--mkt-notices-highlight-title); }
+.mkt-notices-dot { flex: 0 0 7px; width: 7px; height: 7px; border-radius: 1px; background: var(--mkt-notices-amber); }
+.mkt-notices-line[data-kind="service"] .mkt-notices-dot, .mkt-notices-line[data-kind="message"] .mkt-notices-dot { background: var(--mkt-notices-blue); }
+.mkt-notices-line[data-kind="payout"] .mkt-notices-dot, .mkt-notices-line[data-kind="review"] .mkt-notices-dot, .mkt-notices-line[data-kind="sale"] .mkt-notices-dot { background: var(--mkt-notices-green); }
+.mkt-notices-line[data-kind="dispute"] .mkt-notices-dot, .mkt-notices-line[data-kind="report"] .mkt-notices-dot { background: var(--mkt-notices-pink); }
+.mkt-notices-invite { flex-direction: column; align-items: stretch; gap: 10px; padding: 12px; background: var(--mkt-notices-highlight); border-color: var(--mkt-notices-amber); }
+.mkt-notices-invite[data-urgent] { background: var(--mkt-notices-urgent); }
+.mkt-notices-invite strong { color: var(--mkt-notices-highlight-title); font-size: 14px; }
+.mkt-notices-invite-head { display: flex; align-items: center; gap: 10px; }
+.mkt-notices-face { position: relative; flex: 0 0 40px; display: grid; place-items: center; width: 40px; height: 40px; overflow: hidden; border: 1px solid var(--mkt-notices-face-border); border-radius: 50%; background: var(--mkt-notices-face); color: var(--mkt-notices-highlight-title); font-weight: bold; }
+.mkt-notices-face img { position: absolute; top: calc(50% - 53px); left: calc(50% - 43px); display: block; width: 90px; max-width: none; height: 130px; }
+.mkt-notices-invite-act { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.mkt-notices-stars { display: flex; gap: 2px; }
+.mkt-notices-star { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; padding: 0; border: 0; border-radius: 8px; background: transparent; color: var(--mkt-notices-star-off); cursor: pointer; }
+.mkt-notices-star:hover, .mkt-notices-star:focus-visible, .mkt-notices-star:has(~ .mkt-notices-star:hover), .mkt-notices-star:has(~ .mkt-notices-star:focus-visible) { color: var(--mkt-notices-amber); }
+.mkt-notices-star:hover svg, .mkt-notices-star:focus-visible svg, .mkt-notices-star:has(~ .mkt-notices-star:hover) svg, .mkt-notices-star:has(~ .mkt-notices-star:focus-visible) svg { fill: currentColor; }
+.mkt-notices-star:focus-visible { outline: 2px solid var(--mkt-notices-highlight-title); outline-offset: 1px; }
+.mkt-notices-invite-hint { margin: 0; color: var(--mkt-notices-muted); font-size: 12px; }
+.mkt-notices-button { flex: 0 0 auto; min-height: 36px; padding: 7px 12px; border: 1px solid var(--mkt-notices-amber); border-radius: 7px; background: transparent; color: var(--mkt-notices-amber); font: bold 12px/1.3 'Ubuntu', 'Segoe UI', system-ui, sans-serif; cursor: pointer; }
+.mkt-notices-primary { color: var(--mkt-notices-ink); background: var(--mkt-notices-amber); }
+.mkt-notices-button:hover { border-color: var(--mkt-notices-highlight-title); }
+.mkt-notices-button:focus-visible, .mkt-notices-close:focus-visible { outline: 2px solid var(--mkt-notices-highlight-title); outline-offset: 2px; }
+.mkt-notices-footer { display: flex; gap: 8px; margin-top: 12px; }
+.mkt-notices-footer .mkt-notices-button { min-height: 44px; flex: 1 1 auto; font-size: 14px; }
+.mkt-notices-footer .mkt-notices-later { flex: 0 0 auto; padding: 0 16px; border-color: var(--mkt-notices-soft-border); color: var(--mkt-notices-text); }
+.mkt-notices-hint, .mkt-notices-more { margin-top: 10px; }
+.mkt-notices-single { padding: 8px 6px 8px 10px; }
+.mkt-notices-single[data-key-needed] { background: var(--mkt-notices-highlight); border-color: var(--mkt-notices-amber); }
+.mkt-notices-single[data-key-needed] strong { color: var(--mkt-notices-highlight-title); }
+@media (max-width: 420px) {
+    .mkt-notices-overlay { right: 8px; max-width: calc(100% - 16px); }
+    .mkt-notices-single-row { gap: 6px; }
+    .mkt-notices-single .mkt-notices-button { padding: 7px 8px; }
+}
